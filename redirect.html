@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Please Stand By...</title>
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            var androidUrl = getUrlParameter('android');
+            var iosUrl = getUrlParameter('ios');
+            var windowsUrl = getUrlParameter('windows');
+            var otherUrl = getUrlParameter('other');
+
+            var userAgent = navigator.userAgent;
+
+            // Redirect based on platform
+            if (/android/i.test(userAgent) && androidUrl) {
+                window.location.href = androidUrl;
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream && iosUrl) {
+                window.location.href = iosUrl;
+            } else if (/windows phone|windows/i.test(userAgent) && windowsUrl) {
+                window.location.href = windowsUrl;
+            } else if (otherUrl) {
+                window.location.href = otherUrl;
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Redirecting based on your device...</h1>
+</body>
+</html>
